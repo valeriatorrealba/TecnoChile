@@ -162,9 +162,8 @@ function agregarAlCarrito(productoOId) {
 
     // Si llega un id (número), búscalo en window.productos
     if (typeof productoOId === 'number') {
-        if (!window.productos) {
-            console.error('Catálogo no disponible en window.productos');
-            mostrarNotificacion('Error: Catálogo no disponible', 'error');
+        if (!window.productos || window.productos.length === 0) {
+            mostrarNotificacion('Error: Catálogo no disponible', 'warning');
             return;
         }
         producto = window.productos.find(p => p.id === productoOId);
@@ -184,9 +183,17 @@ function agregarAlCarrito(productoOId) {
 
     const item = carrito.find(p => p.id === producto.id);
     if (item) {
+        if(item.cantidad >= producto.stock){
+            mostrarNotificacion(`No puedes agregar más unidades, solo hay ${producto.stock} en stock.`, 'warning');
+            return;
+        }
         item.cantidad++;
         mostrarNotificacion(`Se agregó otra unidad de ${producto.nombre}`, 'info');
     } else {
+        if (producto.stock <= 0) {
+            mostrarNotificacion(`Producto ${producto.nombre} agotado`, 'error');
+            return;
+        }
         carrito.push({ ...producto, cantidad: 1 });
         mostrarNotificacion(`${producto.nombre} agregado al carrito`, 'success');
     }
@@ -292,6 +299,20 @@ function procesarCompra() {
     
     // Mostrar confirmación
     if (confirm('¿Confirmar la compra?\n\n' + mensaje)) {
+        carrito.forEach(item => {
+            const prodCatalogo = window.productos.find(p => p.id === item.id);
+            if (prodCatalogo) {
+                prodCatalogo.stock -= item.cantidad;
+                if (prodCatalogo.stock <= 0) {
+                    mostrarNotificacion(`El producto "${prodCatalogo.nombre}" ha quedado sin stock.`, 'error');
+                    console.log(`ALERTA: Producto ${prodCatalogo.nombre} sin stock. Enviar correo al responsable.`);
+                }
+            }
+        });
+
+        if (typeof cargarProductos === 'function') {
+            cargarProductos(productos);
+        }
         // Simular procesamiento
         mostrarNotificacion('Procesando compra...', 'info');
         

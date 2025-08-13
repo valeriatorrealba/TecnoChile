@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "nombre": "MacBook Pro 13",
+        "precio": 1299000,
+        "imagen": "assets/image/img1.png",
+        "descripcion": "Laptop profesional con chip M2",
+        "stock": 5
+    },
+    {
+        "id": 2,
+        "nombre": "iPhone 14",
+        "precio": 899000,
+        "imagen": "assets/image/img2.png",
+        "descripcion": "Smartphone último modelo",
+        "stock": 0
+    },
+    {
+        "id": 3,
+        "nombre": "iPad Air",
+        "precio": 649000,
+        "imagen": "assets/image/img3.png",
+        "descripcion": "Tablet versátil y potente",
+        "stock": 1
+    },
+    {
+        "id": 4,
+        "nombre": "Samsung Galaxy S23",
+        "precio": 799000,
+        "imagen": "assets/image/img4.png",
+        "descripcion": "Android flagship premium",
+        "stock": 6
+    },
+    {
+        "id": 5,
+        "nombre": "Dell XPS 13",
+        "precio": 1099000,
+        "imagen": "assets/image/img5.png",
+        "descripcion": "Ultrabook profesional",
+        "stock": 20
+    },
+    {
+        "id": 6,
+        "nombre": "AirPods Pro",
+        "precio": 249000,
+        "imagen": "assets/image/img6.png",
+        "descripcion": "Auriculares inalámbricos premium",
+        "stock": 1
+    }
+]
