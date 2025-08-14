@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +7,10 @@
     <link rel="icon" href="assets/image/laptop.svg" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"> 
-    <link rel="stylesheet" href="./css/styles.css">
-    <script src="./js/carrito.js" defer></script>
-    <script src="./js/cliente.js" defer></script>
-    <script src="./js/productos-stock.js" defer></script>
-
-	<!-- <script src="js/productos.js" defer></script> -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/carrito.js" defer></script>
+    <script src="assets/js/cliente.js" defer></script>
+    <script src="assets/js/productos-stock.js" defer></script>
 </head>
 <body>
     <!-- Navbar -->
@@ -36,196 +34,210 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#carrito">Carrito</a>
                     </li>
+                    <li class="nav-item me-3">
+                        <a class="nav-link" href="admin.html">Admin</a>
+                    </li>
+
                 </ul>
             </div>
         </div>
     </nav>
     
     <section>
-     <div id="techCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel" data-bs-interval="5000">
-        <!-- Indicadores -->
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#techCarousel" data-bs-slide-to="0" class="active"></button>
-            <button type="button" data-bs-target="#techCarousel" data-bs-slide-to="1"></button>
-            <button type="button" data-bs-target="#techCarousel" data-bs-slide-to="2"></button>
+        <div id="techCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel" data-bs-interval="5000">
+            <!-- Indicadores -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#techCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#techCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#techCarousel" data-bs-slide-to="2"></button>
+            </div>
+
+            <!-- Slides -->
+            <div class="carousel-inner">
+                <!-- Slide 1: iPhone -->
+                <div class="carousel-item active slide-1">
+                    <div class="carousel-overlay"></div>
+                    <div class="floating-elements">
+                        <i class="fas fa-mobile-alt floating-icon"></i>
+                        <i class="fas fa-wifi floating-icon"></i>
+                        <i class="fas fa-camera floating-icon"></i>
+                        <i class="fas fa-bolt floating-icon"></i>
+                    </div>
+                    <div class="carousel-content">
+                        <div class="container">
+                            <h1 class="hero-title">iPhone 15 Pro</h1>
+                            <p class="hero-subtitle">Revoluciona tu experiencia móvil</p>
+                            <p class="hero-description">
+                                Descubre el poder del chip A17 Pro, sistema de cámaras profesional y diseño en titanio.
+                                La innovación en tus manos con tecnología de vanguardia.
+                            </p>
+                            
+                            <div class="product-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-microchip"></i>
+                                    </div>
+                                    <div class="feature-text">Chip A17 Pro</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-camera"></i>
+                                    </div>
+                                    <div class="feature-text">Cámara 48MP</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-battery-full"></i>
+                                    </div>
+                                    <div class="feature-text">Batería 29h</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 2: iPad -->
+                <div class="carousel-item slide-2">
+                    <div class="carousel-overlay"></div>
+                    <div class="floating-elements">
+                        <i class="fas fa-tablet-alt floating-icon"></i>
+                        <i class="fas fa-pencil-alt floating-icon"></i>
+                        <i class="fas fa-palette floating-icon"></i>
+                        <i class="fas fa-magic floating-icon"></i>
+                    </div>
+                    <div class="carousel-content">
+                        <div class="container">
+                            <h1 class="hero-title">iPad Pro</h1>
+                            <p class="hero-subtitle">Productividad sin límites</p>
+                            <p class="hero-description">
+                                Experimenta el rendimiento extremo del chip M2, pantalla Liquid Retina XDR y compatibilidad 
+                                total con Apple Pencil para crear, diseñar y trabajar como nunca antes.
+                            </p>                        
+                            
+                            <div class="product-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-desktop"></i>
+                                    </div>
+                                    <div class="feature-text">Pantalla 12.9"</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-pen"></i>
+                                    </div>
+                                    <div class="feature-text">Apple Pencil</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-cloud"></i>
+                                    </div>
+                                    <div class="feature-text">5G + WiFi 6E</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide 3: Tablets Android -->
+                <div class="carousel-item slide-3">
+                    <div class="carousel-overlay"></div>
+                    <div class="floating-elements">
+                        <i class="fab fa-android floating-icon"></i>
+                        <i class="fas fa-gamepad floating-icon"></i>
+                        <i class="fas fa-video floating-icon"></i>
+                        <i class="fas fa-book-open floating-icon"></i>
+                    </div>
+                    <div class="carousel-content">
+                        <div class="container">
+                            <h1 class="hero-title">Tablets Premium</h1>
+                            <p class="hero-subtitle">Entretenimiento y versatilidad</p>
+                            <p class="hero-description">
+                                Descubre nuestra selección de tablets Android de alta gama. Samsung Galaxy Tab, 
+                                Lenovo Tab y más opciones perfectas para entretenimiento, trabajo y creatividad.
+                            </p>
+                            <button class="btn btn-modern btn-primary me-3">Ver Tablets</button>
+                            <button class="btn btn-modern btn-tech">Comparar Modelos</button>
+                            
+                            <div class="product-features">
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div class="feature-text">4K HDR</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-memory"></i>
+                                    </div>
+                                    <div class="feature-text">12GB RAM</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-expand-arrows-alt"></i>
+                                    </div>
+                                    <div class="feature-text">Pantalla 11"</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controles -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#techCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#techCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- ================= CLIENTE ================= -->
+    <section id="cliente" class="container my-5">
+        <h2 class="mb-4">Datos del Cliente</h2>
+        <!-- Formulario -->
+        <div id="formCliente" class="row g-3">
+            <div class="col-md-6">
+                <input type="text" id="nombre" class="form-control" placeholder="Nombre">
+            </div>
+            <div class="col-md-6">
+                <input type="text" id="apellido" class="form-control" placeholder="Apellido">
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary" onclick="guardarCliente()">Guardar Información</button>
+            </div>
         </div>
 
-        <!-- Slides -->
-        <div class="carousel-inner">
-            <!-- Slide 1: iPhone -->
-            <div class="carousel-item active slide-1">
-                <div class="carousel-overlay"></div>
-                <div class="floating-elements">
-                    <i class="fas fa-mobile-alt floating-icon"></i>
-                    <i class="fas fa-wifi floating-icon"></i>
-                    <i class="fas fa-camera floating-icon"></i>
-                    <i class="fas fa-bolt floating-icon"></i>
-                </div>
-                <div class="carousel-content">
-                    <div class="container">
-                        <h1 class="hero-title">iPhone 15 Pro</h1>
-                        <p class="hero-subtitle">Revoluciona tu experiencia móvil</p>
-                        <p class="hero-description">
-                            Descubre el poder del chip A17 Pro, sistema de cámaras profesional y diseño en titanio.
-                            La innovación en tus manos con tecnología de vanguardia.
-                        </p>
-                        
-                        <div class="product-features">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-microchip"></i>
-                                </div>
-                                <div class="feature-text">Chip A17 Pro</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-camera"></i>
-                                </div>
-                                <div class="feature-text">Cámara 48MP</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-battery-full"></i>
-                                </div>
-                                <div class="feature-text">Batería 29h</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 2: iPad -->
-            <div class="carousel-item slide-2">
-                <div class="carousel-overlay"></div>
-                <div class="floating-elements">
-                    <i class="fas fa-tablet-alt floating-icon"></i>
-                    <i class="fas fa-pencil-alt floating-icon"></i>
-                    <i class="fas fa-palette floating-icon"></i>
-                    <i class="fas fa-magic floating-icon"></i>
-                </div>
-                <div class="carousel-content">
-                    <div class="container">
-                        <h1 class="hero-title">iPad Pro</h1>
-                        <p class="hero-subtitle">Productividad sin límites</p>
-                        <p class="hero-description">
-                            Experimenta el rendimiento extremo del chip M2, pantalla Liquid Retina XDR y compatibilidad 
-                            total con Apple Pencil para crear, diseñar y trabajar como nunca antes.
-                        </p>                        
-                        
-                        <div class="product-features">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-desktop"></i>
-                                </div>
-                                <div class="feature-text">Pantalla 12.9"</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-pen"></i>
-                                </div>
-                                <div class="feature-text">Apple Pencil</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-cloud"></i>
-                                </div>
-                                <div class="feature-text">5G + WiFi 6E</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Slide 3: Tablets Android -->
-            <div class="carousel-item slide-3">
-                <div class="carousel-overlay"></div>
-                <div class="floating-elements">
-                    <i class="fab fa-android floating-icon"></i>
-                    <i class="fas fa-gamepad floating-icon"></i>
-                    <i class="fas fa-video floating-icon"></i>
-                    <i class="fas fa-book-open floating-icon"></i>
-                </div>
-                <div class="carousel-content">
-                    <div class="container">
-                        <h1 class="hero-title">Tablets Premium</h1>
-                        <p class="hero-subtitle">Entretenimiento y versatilidad</p>
-                        <p class="hero-description">
-                            Descubre nuestra selección de tablets Android de alta gama. Samsung Galaxy Tab, 
-                            Lenovo Tab y más opciones perfectas para entretenimiento, trabajo y creatividad.
-                        </p>
-                        <button class="btn btn-modern btn-primary me-3">Ver Tablets</button>
-                        <button class="btn btn-modern btn-tech">Comparar Modelos</button>
-                        
-                        <div class="product-features">
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-play"></i>
-                                </div>
-                                <div class="feature-text">4K HDR</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-memory"></i>
-                                </div>
-                                <div class="feature-text">12GB RAM</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-icon">
-                                    <i class="fas fa-expand-arrows-alt"></i>
-                                </div>
-                                <div class="feature-text">Pantalla 11"</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Vista cliente registrado -->
+        <div id="vistaCliente" class="alert alert-info mt-3" style="display:none;">
+            <div id="infoCliente" class="mb-2"></div>
+            <button class="btn btn-danger btn-sm" onclick="cerrarSesionCliente()">Cerrar sesión</button>
         </div>
-
-        <!-- Controles -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#techCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#techCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
-    </div>
-
-
-
-<!-- ================= CLIENTE ================= -->
-<section id="cliente" class="container my-5">
-  <h2 class="mb-4">Datos del Cliente</h2>
-
-  <!-- Formulario -->
-  <div id="formCliente" class="row g-3">
-    <div class="col-md-6">
-      <input type="text" id="nombre" class="form-control" placeholder="Nombre">
-    </div>
-    <div class="col-md-6">
-      <input type="text" id="apellido" class="form-control" placeholder="Apellido">
-    </div>
-    <div class="col-12">
-      <button class="btn btn-primary" onclick="guardarCliente()">Guardar Información</button>
-    </div>
-  </div>
-
-  <!-- Vista cliente registrado -->
-  <div id="vistaCliente" class="alert alert-info mt-3" style="display:none;">
-    <div id="infoCliente" class="mb-2"></div>
-    <button class="btn btn-danger btn-sm" onclick="cerrarSesionCliente()">Cerrar sesión</button>
-  </div>
-</section>
+    </section>
 
     <!-- Productos -->
-
- <section id="productos" class="py-5">
+    <section id="productos" class="py-5">
         <div class="container">
             <h2 class="text-center mb-4">Nuestros Productos</h2>
-            
-     
             <div class="row mb-4">
+                <div class="col-md-3">
+                    <select id="filtroCategoria" class="form-select" onchange="filtrarProductos()">
+                        <option value="">Todas las categorías</option>
+                        <option value="Laptops">Laptops</option>
+                        <option value="Smartphones">Smartphones</option>
+                        <option value="Tablets">Tablets</option>
+                        <option value="Accesorios">Accesorios</option>
+                    </select>
+                </div>
+                <!-- Filtro Precio -->
+                <div class="col-md-3">
+                    <label for="filtroPrecio" class="form-label">Precio máximo: <span id="precioMaxLabel">1300000</span></label>
+                    <input type="range" id="filtroPrecio" class="form-range" min="0" max="1300000" step="50" value="1300000"
+                        oninput="document.getElementById('precioMaxLabel').textContent = this.value; filtrarProductos();">
+                </div>
                 <div class="col-md-6 mx-auto">
                     <div class="input-group">
                         <input type="text" class="form-control" id="filtroProductos" placeholder="Buscar productos..." onkeyup="filtrarProductos()">
@@ -233,34 +245,20 @@
                     </div>
                 </div>
             </div>
-
-            <div id="productosContainer" class="row">
-                
-            </div>
+            <div id="productosContainer" class="row"></div>
         </div>
     </section>
 
-<!-- ================= CARRITO ================= -->
-<section id="carrito" class="container my-5">
-  <h2 class="mb-2 d-flex align-items-center gap-2">
-  Carrito de Compras
-</h2>
-
-  <div id="carritoProductos" class="mb-3"></div>
-  <h4>Total: <span id="totalCarrito">$0</span></h4>
-  <div class="mt-3">
-    <button class="btn btn-warning me-2" onclick="vaciarCarrito()">Vaciar Carrito</button>
-    <button class="btn btn-success" onclick="procesarCompra()">Procesar Compra</button>
-  </div>
-</section>
-
-
-
-</section>
-
-
-
-
+    <!-- ================= CARRITO ================= -->
+    <section id="carrito" class="container my-5">
+        <h2 class="mb-2 d-flex align-items-center gap-2">Carrito de Compras</h2>
+        <div id="carritoProductos" class="mb-3"></div>
+        <h4>Total: <span id="totalCarrito">$0</span></h4>
+        <div class="mt-3">
+            <button class="btn btn-warning me-2" onclick="vaciarCarrito()">Vaciar Carrito</button>
+            <button class="btn btn-success" onclick="procesarCompra()">Procesar Compra</button>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="footer" id="contacto">
@@ -302,17 +300,13 @@
     </footer>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    
+
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         tooltipTriggerList.forEach(el => {
             new bootstrap.Tooltip(el);
         });
     </script>
-    <!-- <script src="./js/productos.js"></script>
-    <script src="./js/carrito.js"></script>
-    <script src="./js/cliente.js"></script> -->
     
 </body>
 </html>

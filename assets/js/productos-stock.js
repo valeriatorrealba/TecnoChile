@@ -95,19 +95,19 @@ function cargarProductos(productosAMostrar = productos) {
 
 // Función para filtrar productos
 function filtrarProductos() {
-    const filtro = document.getElementById('filtroProductos');
-    if (!filtro) return;
+    const texto = (document.getElementById('filtroProductos')?.value || '').toLowerCase();
+    const categoria = (document.getElementById('filtroCategoria')?.value || '').toLowerCase();
+    const precioMax = parseFloat(document.getElementById('filtroPrecio')?.value) || Infinity;
 
-    const termino = filtro.value.toLowerCase().trim();
-    if (termino === '') {
-        cargarProductos(productos);
-    } else {
-        const productosFiltrados = productos.filter(producto =>
-            producto.nombre.toLowerCase().includes(termino) ||
-            producto.descripcion.toLowerCase().includes(termino)
-        );
-        cargarProductos(productosFiltrados);
-    }
+    const filtrados = productos.filter(p =>
+        (p.nombre + p.descripcion + (p.categoria || '') + (p.etiqueta || ''))
+            .toLowerCase()
+            .includes(texto) &&
+        (!categoria || (p.categoria || '').toLowerCase() === categoria) &&
+        p.precio <= precioMax
+    );
+
+    cargarProductos(filtrados);
 }
 
 // Función para limpiar la búsqueda

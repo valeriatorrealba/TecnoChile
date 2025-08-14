@@ -5,6 +5,8 @@
         "precio": 1299000,
         "imagen": "assets/image/img1.png",
         "descripcion": "Laptop profesional con chip M2",
+        "categoria": "Laptops",
+        "etiqueta": "Apple, portátiles, M2",
         "stock": 5
     },
     {
@@ -13,6 +15,8 @@
         "precio": 899000,
         "imagen": "assets/image/img2.png",
         "descripcion": "Smartphone último modelo",
+        "categoria": "Smartphones",
+        "etiqueta": "Apple, iOS, celular",
         "stock": 0
     },
     {
@@ -21,6 +25,8 @@
         "precio": 649000,
         "imagen": "assets/image/img3.png",
         "descripcion": "Tablet versátil y potente",
+        "categoria": "Tablets",
+        "etiqueta": "Apple, iOS, multitarea",
         "stock": 1
     },
     {
@@ -29,6 +35,8 @@
         "precio": 799000,
         "imagen": "assets/image/img4.png",
         "descripcion": "Android flagship premium",
+        "categoria": "Smartphones",
+        "etiqueta": "Samsung, Android, flagship",
         "stock": 6
     },
     {
@@ -37,6 +45,8 @@
         "precio": 1099000,
         "imagen": "assets/image/img5.png",
         "descripcion": "Ultrabook profesional",
+        "categoria": "Laptops",
+        "etiqueta": "Dell, portátil, ultrabook",
         "stock": 20
     },
     {
@@ -45,6 +55,8 @@
         "precio": 249000,
         "imagen": "assets/image/img6.png",
         "descripcion": "Auriculares inalámbricos premium",
+        "categoria": "Accesorios",
+        "etiqueta": "Apple, audio, bluetooth",
         "stock": 1
     }
 ]
