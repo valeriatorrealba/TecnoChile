@@ -1,5 +1,37 @@
 // ================== ESTADO DEL CARRITO ==================
 let carrito = [];
+const LS_KEY_PRODUCTS = 'productos';
+const API_DELAY_MS = 600;
+
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+async function verificarStockEnServidor(id, cantidadSolicitada){
+    await sleep(API_DELAY_MS);
+    const prod = (window.productos || []).find(p => p.id === id);
+    const disponible = prod ? prod.stock : 0;
+    return { ok: !!prod && disponible >= cantidadSolicitada, disponible, nombre: prod?.nombre || `ID ${id}` };
+}
+
+async function actualizarStockEnServidor(items){
+    await sleep(API_DELAY_MS);
+
+    for (const it of items){
+        const prod = (window.productos || []).find(p => p.id === it.id);
+        if (!prod || prod.stock < it.cantidad){
+        const nombre = prod?.nombre || `ID ${it.id}`;
+        const disp = prod ? prod.stock : 0;
+        throw new Error(`Stock insuficiente para ${nombre}. Disponible: ${disp}.`);
+        }
+    }
+
+    for (const it of items){
+        const prod = window.productos.find(p => p.id === it.id);
+        prod.stock -= it.cantidad;
+    }
+
+    localStorage.setItem(LS_KEY_PRODUCTS, JSON.stringify(window.productos));
+    return true;
+}
 
 // ================== UTILIDADES ==================
 function guardarLSCarrito() {
@@ -157,7 +189,7 @@ function actualizarCarrito() {
 }
 
 // ================== ACCIONES DEL CARRITO ==================
-function agregarAlCarrito(productoOId) {
+async function agregarAlCarrito(productoOId) {
     let producto = productoOId;
 
     // Si llega un id (número), búscalo en window.productos
@@ -182,18 +214,18 @@ function agregarAlCarrito(productoOId) {
     }
 
     const item = carrito.find(p => p.id === producto.id);
-    if (item) {
-        if(item.cantidad >= producto.stock){
-            mostrarNotificacion(`No puedes agregar más unidades, solo hay ${producto.stock} en stock.`, 'warning');
-            return;
-        }
+    const cantidadSolicitada = item ? item.cantidad + 1 : 1;
+    const chk = await verificarStockEnServidor(producto.id, cantidadSolicitada);
+
+    if (!chk.ok) {
+        mostrarNotificacion(`No hay stock suficiente de ${producto.nombre}. Disponible: ${chk.disponible}`, 'warning');
+        return;
+    }
+
+    if (item) {        
         item.cantidad++;
         mostrarNotificacion(`Se agregó otra unidad de ${producto.nombre}`, 'info');
     } else {
-        if (producto.stock <= 0) {
-            mostrarNotificacion(`Producto ${producto.nombre} agotado`, 'error');
-            return;
-        }
         carrito.push({ ...producto, cantidad: 1 });
         mostrarNotificacion(`${producto.nombre} agregado al carrito`, 'success');
     }
@@ -204,7 +236,7 @@ function agregarAlCarrito(productoOId) {
     console.log('Producto agregado al carrito:', producto.nombre);
 }
 
-function cambiarCantidad(id, nuevaCantidad) {
+async function cambiarCantidad(id, nuevaCantidad) {
     if (nuevaCantidad < 1) {
         eliminarDelCarrito(id);
         return;
@@ -213,9 +245,9 @@ function cambiarCantidad(id, nuevaCantidad) {
     const producto = carrito.find(p => p.id === id);
     if (!producto) return;
 
-    const prodCatalogo = window.productos.find(p => p.id === id);
-    if (prodCatalogo && nuevaCantidad > prodCatalogo.stock) {
-        mostrarNotificacion(`Solo hay ${prodCatalogo.stock} unidades de ${producto.nombre} en stock.`, 'warning');
+    const chk = await verificarStockEnServidor(id, nuevaCantidad);
+    if (!chk.ok) {
+        mostrarNotificacion(`Solo hay ${chk.disponible} unidades de ${chk.nombre} en stock.`, 'warning');
         return;
     }
 
@@ -256,7 +288,7 @@ function vaciarCarrito() {
     }
 }
 
-function procesarCompra() {
+async function procesarCompra() {
     // Verificar que hay productos en el carrito
     if (carrito.length === 0) {
         mostrarNotificacion('El carrito está vacío. Agrega productos antes de procesar la compra.', 'warning');
@@ -292,6 +324,7 @@ function procesarCompra() {
     const total = carrito.reduce((acc, p) => acc + (p.precio * p.cantidad), 0);
     const totalItems = carrito.reduce((acc, p) => acc + p.cantidad, 0);
     
+    
     // Crear resumen detallado
     const resumenItems = carrito.map(p => 
         `• ${p.nombre} - Cantidad: ${p.cantidad} - Subtotal: ${formatearPrecio(p.precio * p.cantidad)}`
@@ -303,38 +336,26 @@ function procesarCompra() {
                 `💰 TOTAL: ${formatearPrecio(total)}\n\n` +
                 `¡Gracias por tu compra en Tecno Chile!`;
     
-    // Mostrar confirmación
-    if (confirm('¿Confirmar la compra?\n\n' + mensaje)) {
-        carrito.forEach(item => {
-            const prodCatalogo = window.productos.find(p => p.id === item.id);
-            if (prodCatalogo) {
-                prodCatalogo.stock -= item.cantidad;
-                if (prodCatalogo.stock <= 0) {
-                    mostrarNotificacion(`El producto "${prodCatalogo.nombre}" ha quedado sin stock.`, 'error');
-                    console.log(`ALERTA: Producto ${prodCatalogo.nombre} sin stock. Enviar correo al responsable.`);
-                }
-            }
-        });
+    if (!confirm('¿Confirmar la compra?\n\n' + mensaje)) return;
 
-        localStorage.setItem("productos", JSON.stringify(window.productos));
+    try {
+        mostrarNotificacion('Procesando compra...', 'info');
+        await actualizarStockEnServidor(carrito.map(it => ({ id: it.id, cantidad: it.cantidad })));
 
         if (typeof cargarProductos === 'function') {
-            cargarProductos(window.productos);
+        cargarProductos(window.productos);
         }
-        // Simular procesamiento
-        mostrarNotificacion('Procesando compra...', 'info');
-        
-        setTimeout(() => {
-            mostrarNotificacion('¡Compra realizada exitosamente! Gracias por elegirnos.', 'success');
-            
-            // Limpiar carrito después de la compra exitosa
-            carrito = [];
-            guardarLSCarrito();
-            actualizarCarrito();
-            
-            console.log('Compra procesada exitosamente');
-        }, 1500);
+
+        carrito = [];
+        guardarLSCarrito();
+        actualizarCarrito();
+
+        mostrarNotificacion('¡Compra realizada exitosamente! Gracias por elegirnos.', 'success');
+        console.log('Compra procesada exitosamente');
+    } catch (e) {
+        mostrarNotificacion(e.message || 'Error al actualizar stock en el servidor', 'error');
     }
+
 }
 
 // ================== SISTEMA DE NOTIFICACIONES ==================
