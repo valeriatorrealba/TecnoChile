@@ -1,5 +1,5 @@
 let productos = [];
-
+const LS_KEY = "productos";
 window.productos = productos; // referencia global
 
 // Función para formatear precios CLP
@@ -13,6 +13,14 @@ function formatearPrecio(precio) {
 // Función para cargar productos desde un archivo JSON
 async function cargarProductosDesdeJSON() {
     try {
+        const enLS = localStorage.getItem(LS_KEY);
+        if (enLS) {
+            productos.splice(0, productos.length, ...JSON.parse(enLS));
+            console.log("Productos cargados desde LocalStorage:", productos.length);
+            cargarProductos(productos);
+            return;
+        }
+        
         const container = document.getElementById('productosContainer');
         if (container) {
             container.innerHTML = `<div class="text-center p-5">
@@ -24,9 +32,17 @@ async function cargarProductosDesdeJSON() {
         const respuesta = await fetch('./assets/data/productos.json');
         if (!respuesta.ok) throw new Error('Error al cargar el archivo JSON');
 
-        // Cargar datos y mantener la misma referencia de array global
         const data = await respuesta.json();
-        productos.splice(0, productos.length, ...data);
+
+        const normalizados = data.map(p => ({
+            ...p,
+            categoria: p.categoria || "Sin categoría",
+            etiqueta: p.etiqueta || ""
+        }));
+
+        productos.splice(0, productos.length, ...normalizados);
+
+        localStorage.setItem(LS_KEY, JSON.stringify(normalizados));
         console.log("Productos cargados:", productos.length);
 
         cargarProductos(productos);

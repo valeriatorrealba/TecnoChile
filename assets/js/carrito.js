@@ -52,8 +52,8 @@ function ensureFloatingCartButton() {
     btn.innerHTML = `
         <i class="fas fa-shopping-cart"></i>
         <span id="cartBadge"
-              class="position-absolute translate-middle badge rounded-pill bg-danger"
-              style="top:0; right:0; min-width:24px; height:24px; display:grid; place-items:center; font-size:12px;">0</span>
+            class="position-absolute translate-middle badge rounded-pill bg-danger"
+            style="top:0; right:0; min-width:24px; height:24px; display:grid; place-items:center; font-size:12px;">0</span>
     `;
     
     // Aplicar estilos desde CSS
@@ -108,8 +108,8 @@ function actualizarCarrito() {
                     <div class="col-md-8">
                         <div class="d-flex align-items-center">
                             <img src="${prod.imagen}" alt="${prod.nombre}" 
-                                 class="me-3 rounded" style="width: 60px; height: 60px; object-fit: cover;"
-                                 onerror="this.src='https://via.placeholder.com/60x60/f8f9fa/6c757d?text=IMG'">
+                                class="me-3 rounded" style="width: 60px; height: 60px; object-fit: cover;"
+                                onerror="this.src='https://via.placeholder.com/60x60/f8f9fa/6c757d?text=IMG'">
                             <div>
                                 <h6 class="mb-1 text-primary">${prod.nombre}</h6>
                                 <small class="text-muted">${prod.descripcion}</small>
@@ -212,7 +212,13 @@ function cambiarCantidad(id, nuevaCantidad) {
     
     const producto = carrito.find(p => p.id === id);
     if (!producto) return;
-    
+
+    const prodCatalogo = window.productos.find(p => p.id === id);
+    if (prodCatalogo && nuevaCantidad > prodCatalogo.stock) {
+        mostrarNotificacion(`Solo hay ${prodCatalogo.stock} unidades de ${producto.nombre} en stock.`, 'warning');
+        return;
+    }
+
     producto.cantidad = nuevaCantidad;
     
     guardarLSCarrito();
@@ -292,10 +298,10 @@ function procesarCompra() {
     ).join('\n');
     
     const mensaje = `🛒 RESUMEN DE COMPRA 🛒\n\n` +
-                   `Cliente: ${clienteInfo.nombre} ${clienteInfo.apellido}\n\n` +
-                   `Productos (${totalItems} items):\n${resumenItems}\n\n` +
-                   `💰 TOTAL: ${formatearPrecio(total)}\n\n` +
-                   `¡Gracias por tu compra en Tecno Chile!`;
+                `Cliente: ${clienteInfo.nombre} ${clienteInfo.apellido}\n\n` +
+                `Productos (${totalItems} items):\n${resumenItems}\n\n` +
+                `💰 TOTAL: ${formatearPrecio(total)}\n\n` +
+                `¡Gracias por tu compra en Tecno Chile!`;
     
     // Mostrar confirmación
     if (confirm('¿Confirmar la compra?\n\n' + mensaje)) {
@@ -310,8 +316,10 @@ function procesarCompra() {
             }
         });
 
+        localStorage.setItem("productos", JSON.stringify(window.productos));
+
         if (typeof cargarProductos === 'function') {
-            cargarProductos(productos);
+            cargarProductos(window.productos);
         }
         // Simular procesamiento
         mostrarNotificacion('Procesando compra...', 'info');
