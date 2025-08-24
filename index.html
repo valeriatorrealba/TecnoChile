@@ -37,7 +37,6 @@
                     <li class="nav-item me-3">
                         <a class="nav-link" href="admin.html">Admin</a>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -226,16 +225,14 @@
                 <div class="col-md-3">
                     <select id="filtroCategoria" class="form-select" onchange="filtrarProductos()">
                         <option value="">Todas las categorías</option>
-                        <option value="Laptops">Laptops</option>
-                        <option value="Smartphones">Smartphones</option>
-                        <option value="Tablets">Tablets</option>
-                        <option value="Accesorios">Accesorios</option>
+                        <option value="laptops">Laptops</option>
+                        <option value="smartphones">Smartphones</option>
                     </select>
                 </div>
                 <!-- Filtro Precio -->
                 <div class="col-md-3">
-                    <label for="filtroPrecio" class="form-label">Precio máximo: <span id="precioMaxLabel">1300000</span></label>
-                    <input type="range" id="filtroPrecio" class="form-range" min="0" max="1300000" step="50" value="1300000"
+                    <label for="filtroPrecio" class="form-label">Precio máximo: <span id="precioMaxLabel">2500</span></label>
+                    <input type="range" id="filtroPrecio" class="form-range" min="0" max="2500" step="50" value="2500"
                         oninput="document.getElementById('precioMaxLabel').textContent = this.value; filtrarProductos();">
                 </div>
                 <div class="col-md-6 mx-auto">

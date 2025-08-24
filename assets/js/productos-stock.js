@@ -1,5 +1,7 @@
+const CATEGORIAS = ['smartphones', 'laptops'];
 let productos = [];
 const LS_KEY = "productos";
+const container = document.getElementById("productosContainer");
 window.productos = productos; // referencia global
 
 // Función para formatear precios CLP
@@ -10,55 +12,58 @@ function formatearPrecio(precio) {
     }).format(precio);
 }
 
-// Función para cargar productos desde un archivo JSON
-async function cargarProductosDesdeJSON() {
+async function cargarProductosDesdeAPI() {
+    if (!container) return console.error("No se encontró el contenedor de productos");
+
     try {
         const enLS = localStorage.getItem(LS_KEY);
         if (enLS) {
-            productos.splice(0, productos.length, ...JSON.parse(enLS));
-            console.log("Productos cargados desde LocalStorage:", productos.length);
+            const productosLS = JSON.parse(enLS).map(p => ({ ...p, categoria: (p.categoria || '').toLowerCase() }));
+            productos.splice(0, productos.length, ...productosLS);
             cargarProductos(productos);
             return;
         }
         
-        const container = document.getElementById('productosContainer');
-        if (container) {
-            container.innerHTML = `<div class="text-center p-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-3">Cargando productos...</p>
-            </div>`;
+
+        container.innerHTML = `<div class="text-center p-5">
+                                <div class="spinner-border text-primary" role="status"></div>
+                                <p class="mt-3">Cargando productos...</p>
+                            </div>`;
+        
+        let todosProductos = [];
+
+        for (const cat of CATEGORIAS) {
+            const res = await fetch(`https://dummyjson.com/products/category/${cat}`);
+            if (!res.ok) throw new Error(`Error cargando ${cat}`);
+            const data = await res.json();
+            const normalizados = data.products.map(p => ({
+                id: p.id,
+                nombre: p.title,
+                descripcion: p.description,
+                precio: p.price,
+                stock: p.stock ?? 5,
+                categoria: (p.category || cat).toLowerCase(),
+                imagen: p.thumbnail,
+                etiqueta: p.brand || ''
+            }));
+            todosProductos.push(...normalizados);
         }
 
-        const respuesta = await fetch('./assets/data/productos.json');
-        if (!respuesta.ok) throw new Error('Error al cargar el archivo JSON');
-
-        const data = await respuesta.json();
-
-        const normalizados = data.map(p => ({
-            ...p,
-            categoria: p.categoria || "Sin categoría",
-            etiqueta: p.etiqueta || ""
-        }));
-
-        productos.splice(0, productos.length, ...normalizados);
-
-        localStorage.setItem(LS_KEY, JSON.stringify(normalizados));
-        console.log("Productos cargados:", productos.length);
+        productos.splice(0, productos.length, ...todosProductos);
+        localStorage.setItem(LS_KEY, JSON.stringify(productos));
 
         cargarProductos(productos);
     } catch (error) {
         console.error("Error cargando productos:", error);
+        container.innerHTML = `<p class="text-danger">Error al cargar productos.</p>`;
     }
 }
 
-// Función para renderizar productos en el DOM con mensajes de stock
-function cargarProductos(productosAMostrar = productos) {
-    const container = document.getElementById('productosContainer');
-    if (!container) return;
+function cargarProductos(productosAMostrar) {
 
     container.innerHTML = '';
 
-    if (productosAMostrar.length === 0) {
+    if (!productosAMostrar || productosAMostrar.length === 0) {
         container.innerHTML = `
             <div class="col-12 text-center">
                 <div class="alert alert-info">
@@ -70,17 +75,11 @@ function cargarProductos(productosAMostrar = productos) {
     }
 
     productosAMostrar.forEach(producto => {
-        let estadoStock = '';
-        let disabled = '';
-
-        if (producto.stock === 0) {
-            estadoStock = '<span class="badge bg-danger">Agotado</span>';
-            disabled = 'disabled';
-        } else if (producto.stock === 1) {
-            estadoStock = '<span class="badge bg-warning text-dark">¡Último producto!</span>';
-        } else if (producto.stock < 4) {
-            estadoStock = `<span class="badge bg-info text-dark">Stock: ${producto.stock}</span>`;
-        }
+        const estadoStock = producto.stock > 0 
+        ? `<span class="text-success">En stock: ${producto.stock}</span>` 
+        : `<span class="text-danger">Sin stock</span>`;
+        
+        const disabled = producto.stock > 0 ? "" : "disabled";
 
         const col = document.createElement('div');
         col.className = 'col-md-4 mb-4';
@@ -88,7 +87,7 @@ function cargarProductos(productosAMostrar = productos) {
         col.innerHTML = `
             <div class="card product-card h-100 shadow-sm">
                 <img src="${producto.imagen}" class="card-img-top" alt="${producto.nombre}" 
-                    style="height: 250px; object-fit: cover; background: #f8f9fa;">
+                    style="height: 250px; object-fit: contain; background: #f8f9fa;">
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title text-primary">${producto.nombre}</h5>
                     <p class="card-text text-muted">${producto.descripcion}</p>
@@ -137,7 +136,7 @@ function limpiarBusqueda() {
 
 // Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
-    cargarProductosDesdeJSON();
+    cargarProductosDesdeAPI();
 
     const filtroInput = document.getElementById('filtroProductos');
     if (filtroInput) {
